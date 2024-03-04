@@ -1,5 +1,6 @@
 
 import ancientmeme.pomodoro.PomodoroTimer;
+import ancientmeme.pomodoro.TimerMode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -134,7 +135,7 @@ public class PomodoroTimerTest {
 
     @Test
     public void getTimerModeTest() {
-        Assertions.assertEquals("Session", timer.getTimerMode());
+        Assertions.assertEquals(TimerMode.SESSION, timer.getTimerMode());
     }
 
     @Test
@@ -142,7 +143,7 @@ public class PomodoroTimerTest {
         timer.setSessionLength(0, 1);
         timer.startTimer();
         sleep(2 * SECOND);
-        Assertions.assertEquals("Break", timer.getTimerMode());
+        Assertions.assertEquals(TimerMode.BREAK, timer.getTimerMode());
     }
 
     /**

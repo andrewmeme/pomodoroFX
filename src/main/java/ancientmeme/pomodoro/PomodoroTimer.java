@@ -8,28 +8,34 @@ import static java.util.concurrent.TimeUnit.*;
 
 /**
  * Handles the logic for the clock, supports pausing,
- * stopping, and settings reset
+ * stopping, and resetting timer settings.
  */
 public class PomodoroTimer {
     private final long SECOND = 1000;
     private final long MINUTE = 60 * SECOND;
-    /*
-    * The scheduler runs a thread that only does periodic updates
-    * for the timer
-    */
+    //The scheduler runs a thread that updates for the timer
     private final ScheduledExecutorService scheduler;
-    private long sessionLength;
-    private long breakLength;
-    private boolean isInSession;
-    /* Timer tracker, a thread that keeps tracks of passage of time */
+    // Timer tracker, a thread that keeps tracks of passage of time
     private ScheduledFuture<?> timerThread;
+    // Length of a session in milliseconds
+    private long sessionLength;
+    // Length of a break in milliseconds
+    private long breakLength;
+    // Timer cursor to track current time using System Clock
     private long currentTime;
+    // Timer cursor to indicate when the timer should end
     private long endTime;
-    private boolean isTimerRunning;
-    /* Pause tracker, values only has meaning if isPause is true */
+    // Pause cursor, values only has meaning if isPause is true
     private long pauseStart;
+    private boolean isInSession;
+    private boolean isTimerRunning;
     private boolean isPause;
 
+    /**
+     * Constructs a pomodoro timer for the application to use.
+     * the session and break length is set to the default pomodoro
+     * technique recommendation: 25 minutes / 5 minutes
+     */
     public PomodoroTimer() {
         scheduler = Executors.newScheduledThreadPool(1);
         sessionLength = 25 * MINUTE;
@@ -40,22 +46,45 @@ public class PomodoroTimer {
         isPause = false;
     }
 
+    /**
+     * Gets the current session length
+     * @return The current length for a session in milliseconds
+     */
     public long getSessionLength() {
         return sessionLength;
     }
 
+    /**
+     * Set the length of a session
+     * @param minutes how many minutes in a session
+     * @param seconds how many seconds in a session
+     */
     public void setSessionLength(long minutes, long seconds) {
         sessionLength = minutes * MINUTE + seconds * SECOND;
     }
 
+    /**
+     * Gets the current break length
+     * @return The current length for a break in milliseconds
+     */
     public long getBreakLength() {
         return breakLength;
     }
 
+    /**
+     * Set the length for a break
+     * @param minutes how many minutes in a session
+     * @param seconds how many seconds in a session
+     */
     public void setBreakLength(long minutes, long seconds) {
         breakLength = minutes * MINUTE + seconds * SECOND;
     }
 
+    /**
+     * Gets the remaining time left for the current
+     * session or break
+     * @return remaining time of either session or break
+     */
     public long getRemainingTime() {
         if (!isTimerRunning) {
             return sessionLength;
@@ -64,10 +93,19 @@ public class PomodoroTimer {
         return (endTime - currentTime);
     }
 
-    public String getTimerMode() {
-        return (isInSession) ? "Session" : "Break";
+    /**
+     * Gets the
+     * @return "Session" or "Break" depending
+     */
+    public TimerMode getTimerMode() {
+        return (isInSession) ? TimerMode.SESSION : TimerMode.BREAK;
     }
 
+    /**
+     * Starting a dedicated Runnable that updates the current time
+     * cursor every 50ms. The Runnable responses to timer pausing and
+     * switches mode when a session or a break ends.
+     */
     public void startTimer() {
         if (isTimerRunning) {
             return;
@@ -78,7 +116,6 @@ public class PomodoroTimer {
         currentTime = System.currentTimeMillis();
         endTime = System.currentTimeMillis() + sessionLength;
 
-        // Creates a dedicated thread to keep track of time
         Runnable timer = new Runnable() {
             @Override
             public void run() {
@@ -95,6 +132,9 @@ public class PomodoroTimer {
         timerThread = scheduler.scheduleAtFixedRate(timer, 0, 50, MILLISECONDS);
     }
 
+    /**
+     * Pausing the timer if it is currently active
+     */
     public void pauseTimer() {
         if (isPause) {
             return;
@@ -104,6 +144,9 @@ public class PomodoroTimer {
         pauseStart = System.currentTimeMillis();
     }
 
+    /**
+     * Resume the timer if it is currently active
+     */
     public void resumeTimer() {
         if (!isPause) {
             return;
@@ -116,6 +159,9 @@ public class PomodoroTimer {
         isPause = false;
     }
 
+    /**
+     * Stops the timer completely and reset its mode
+     */
     public void stopTimer() {
         if (!isTimerRunning) {
             return;
@@ -126,15 +172,17 @@ public class PomodoroTimer {
         timerThread.cancel(true);
     }
 
+    /**
+     * Performs the same task as stopTimer, additionally resets
+     * all settings back to default
+     */
     public void resetTimer() {
         stopTimer();
         setSessionLength(25, 0);
         setBreakLength(5, 0);
     }
 
-    /**
-     * switching the timer mode between Session and Break
-     */
+    /* Should only be used by timer thread */
     private void switchMode() {
         isInSession = !isInSession;
         if (isInSession) {
