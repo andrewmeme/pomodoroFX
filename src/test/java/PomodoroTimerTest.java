@@ -109,6 +109,42 @@ public class PomodoroTimerTest {
         assertInRange(_defaultSessionLength, SECOND);
     }
 
+    @Test
+    public void restartDuringPauseTest() {
+        timer.startTimer();
+        timer.pauseTimer();
+        timer.stopTimer();
+
+        timer.startTimer();
+        sleep(SECOND);
+        assertInRange(_defaultSessionLength, SECOND);
+    }
+
+    @Test
+    public void stopAfterFinishedTest() {
+        timer.setSessionLength(0, 1);
+        timer.startTimer();
+        sleep(1200);
+        try {
+            timer.stopTimer();
+        } catch (Exception e) {
+            Assertions.fail("Stopping after timer finished shouldn't throw exceptions");
+        }
+    }
+
+    @Test
+    public void getTimerModeTest() {
+        Assertions.assertEquals("Session", timer.getTimerMode());
+    }
+
+    @Test
+    public void switchToBreakTest() {
+        timer.setSessionLength(0, 1);
+        timer.startTimer();
+        sleep(2 * SECOND);
+        Assertions.assertEquals("Break", timer.getTimerMode());
+    }
+
     /**
      * Check if the elapsed time is inside the boundary
      * @param sessionLength The total time of the current session

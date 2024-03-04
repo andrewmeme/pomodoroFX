@@ -20,50 +20,60 @@ public class PomodoroTimer {
     private final ScheduledExecutorService scheduler;
     private long sessionLength;
     private long breakLength;
-    /*
-     * Timer tracker, a thread that keeps tracks of passage of time
-     */
-    private ScheduledFuture<?> timerThread;
     private boolean isInSession;
+    /* Timer tracker, a thread that keeps tracks of passage of time */
+    private ScheduledFuture<?> timerThread;
     private long currentTime;
     private long endTime;
-
-    /*
-     * Pause tracker, values only has meaning if isPause is true
-     */
-    private boolean isPause;
+    private boolean isTimerRunning;
+    /* Pause tracker, values only has meaning if isPause is true */
     private long pauseStart;
+    private boolean isPause;
 
     public PomodoroTimer() {
         scheduler = Executors.newScheduledThreadPool(1);
         sessionLength = 25 * MINUTE;
         breakLength = 5 * MINUTE;
 
-        isInSession = false;
+        isInSession = true;
+        isTimerRunning = false;
         isPause = false;
-    }
-
-    public void setSessionLength(long minutes, long seconds) {
-        sessionLength = minutes * MINUTE + seconds * SECOND;
     }
 
     public long getSessionLength() {
         return sessionLength;
     }
 
-    public void setBreakLength(long minutes, long seconds) {
-        breakLength = minutes * MINUTE + seconds * SECOND;
+    public void setSessionLength(long minutes, long seconds) {
+        sessionLength = minutes * MINUTE + seconds * SECOND;
     }
 
     public long getBreakLength() {
         return breakLength;
     }
 
+    public void setBreakLength(long minutes, long seconds) {
+        breakLength = minutes * MINUTE + seconds * SECOND;
+    }
+
+    public long getRemainingTime() {
+        if (!isTimerRunning) {
+            return sessionLength;
+        }
+
+        return (endTime - currentTime);
+    }
+
+    public String getTimerMode() {
+        return (isInSession) ? "Session" : "Break";
+    }
+
     public void startTimer() {
-        if (isInSession) {
+        if (isTimerRunning) {
             return;
         }
 
+        isTimerRunning = true;
         isInSession = true;
         currentTime = System.currentTimeMillis();
         endTime = System.currentTimeMillis() + sessionLength;
@@ -77,8 +87,8 @@ public class PomodoroTimer {
                 }
 
                 currentTime = System.currentTimeMillis();
-                if (currentTime > endTime) {
-                    timerThread.cancel(true);
+                if (currentTime >= endTime) {
+                    switchMode();
                 }
             }
         };
@@ -107,11 +117,12 @@ public class PomodoroTimer {
     }
 
     public void stopTimer() {
-        if (!isInSession) {
+        if (!isTimerRunning) {
             return;
         }
 
-        isInSession = false;
+        isTimerRunning = false;
+        isPause = false;
         timerThread.cancel(true);
     }
 
@@ -121,11 +132,15 @@ public class PomodoroTimer {
         setBreakLength(5, 0);
     }
 
-    public long getRemainingTime() {
-        if (!isInSession) {
-            return sessionLength;
+    /**
+     * switching the timer mode between Session and Break
+     */
+    private void switchMode() {
+        isInSession = !isInSession;
+        if (isInSession) {
+            endTime = System.currentTimeMillis() + sessionLength;
+        } else {
+            endTime = System.currentTimeMillis() + breakLength;
         }
-
-        return (endTime - currentTime);
     }
 }
