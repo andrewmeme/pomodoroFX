@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class PomodoroLauncher extends Application {
+    private PomodoroController controller;
+
     /**
      * Load the scene with the given fxml files, exits program if fxml
      * cannot be loaded.
@@ -24,7 +26,8 @@ public class PomodoroLauncher extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
         Scene scene = null;
         try {
-            scene = new Scene(fxmlLoader.load(), 320, 240);
+            scene = new Scene(fxmlLoader.load(), 320, 360);
+            controller = fxmlLoader.getController();
         } catch (IOException e) {
             System.err.format("Cannot load fxml file: %s%n", fxmlName);
             System.exit(1);
@@ -52,10 +55,16 @@ public class PomodoroLauncher extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = loadScene("clock.fxml");
-        loadCSS(scene, "clock.css");
+        //loadCSS(scene, "clock.css");
         stage.setTitle("Pomodoro Clock");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() {
+        controller.shutdownController();
+        System.exit(0);
     }
 
     public static void main(String[] args) {

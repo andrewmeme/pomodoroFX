@@ -1,0 +1,46 @@
+
+#mode {
+    -fx-font-size: 24px;
+    -fx-font-weight: 500;
+}
+
+#timer {
+    -fx-font-size: 72px;
+    -fx-font-weight: 500;
+}
+
+.button {
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+}
+
+#start-btn {
+    -fx-graphic: url("start.png");
+    -fx-background-color: #61CA6E;
+}
+
+#start-btn:hover {
+    -fx-background-color: #51B045;
+}
+
+#start-btn:can_pause {
+    -fx-graphic: url("pause.png");
+}
+
+#stop-btn {
+    -fx-graphic: url("stop.png");
+    -fx-background-color: #CB4545;
+}
+
+#stop-btn:hover {
+    -fx-background-color: #AE2B34;
+}
+
+#reset-btn {
+    -fx-graphic: url("reset.png");
+    -fx-background-color: #7686B0;
+}
+
+#reset-btn:hover {
+    -fx-background-color: #595A97;
+}

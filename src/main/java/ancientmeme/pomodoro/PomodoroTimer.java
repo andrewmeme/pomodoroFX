@@ -4,7 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * Handles the logic for the clock, supports pausing,
@@ -82,8 +82,8 @@ public class PomodoroTimer {
 
     /**
      * Gets the remaining time left for the current
-     * session or break
-     * @return remaining time of either session or break
+     * session or break in milliseconds
+     * @return remaining milliseconds of current session or break
      */
     public long getRemainingTime() {
         if (!isTimerRunning) {
@@ -94,11 +94,27 @@ public class PomodoroTimer {
     }
 
     /**
-     * Gets the
-     * @return "Session" or "Break" depending
+     * Gets the mode the timer is currently on
+     * @return TimerMode.Session or TimerMode.Break
      */
     public TimerMode getTimerMode() {
         return (isInSession) ? TimerMode.SESSION : TimerMode.BREAK;
+    }
+
+    /**
+     * Gets information on is the timer running
+     * @return is the timer in a session
+     */
+    public boolean isTimerRunning() {
+        return isTimerRunning;
+    }
+
+    /**
+     * Gets information on is the current timer paused
+     * @return is the timer paused
+     */
+    public boolean isPause() {
+        return isPause;
     }
 
     /**
@@ -180,6 +196,14 @@ public class PomodoroTimer {
         stopTimer();
         setSessionLength(25, 0);
         setBreakLength(5, 0);
+    }
+
+    /**
+     * Shutdowns the scheduler for updating the clock, should only
+     * be called when application is preparing to exit
+     */
+    public void shutdownTimer() {
+        scheduler.shutdownNow();
     }
 
     /* Should only be used by timer thread */

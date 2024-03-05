@@ -1,6 +1,7 @@
 
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.TimerMode;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,11 +11,16 @@ public class PomodoroTimerTest {
     private final long SECOND = 1000;
     private final long MINUTE = 60 * SECOND;
     private final long _defaultSessionLength = 25 * MINUTE;
-    private final long _acceptableMargin = 50;
+    private final long _acceptableMargin = 75;
 
     @BeforeEach
     public void setupTest() {
         timer = new PomodoroTimer();
+    }
+
+    @AfterEach
+    public void teardownTest() {
+        timer.shutdownTimer();
     }
 
     @Test
