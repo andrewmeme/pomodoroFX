@@ -1,18 +1,20 @@
-package ancientmeme.pomodoro;
+package ancientmeme.pomodoro.controller;
 
+import ancientmeme.pomodoro.PomodoroTimer;
+import ancientmeme.pomodoro.util.TimerMode;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 /**
  * Controller for the Pomodoro Interface, interacts with a
  * PomodoroTimer and updates the interface accordingly.
@@ -23,6 +25,7 @@ public class PomodoroController implements Initializable {
     private static final PseudoClass CAN_PAUSE = PseudoClass.getPseudoClass("can_pause");
     private ScheduledExecutorService scheduler;
     private PomodoroTimer timer;
+    private Stage settingsStage;
     @FXML
     private Text modeDisplay;
     @FXML
@@ -38,17 +41,30 @@ public class PomodoroController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         scheduler = Executors.newScheduledThreadPool(1);
-        timer = new PomodoroTimer();
         startButton.pseudoClassStateChanged(CAN_PAUSE, false);
-        refreshDisplay();
+    }
+
+    /**
+     * Inject a reference to a PomodoroTimer
+     * @param timerRef reference to a PomodoroTimer
+     */
+    public void setTimerReference(PomodoroTimer timerRef) {
+        timer = timerRef;
+    }
+
+    /**
+     * Inject a reference to the settings window
+     * @param settingsStageRef reference to the settings window
+     */
+    public void setSettingsStage(Stage settingsStageRef) {
+        settingsStage = settingsStageRef;
     }
 
     /**
      * Application should call this method to shut down
-     * the refresher and timer threads gracefully
+     * the refresher thread gracefully
      */
     public void shutdownController() {
-        timer.shutdownTimer();
         scheduler.shutdownNow();
     }
 
@@ -56,7 +72,7 @@ public class PomodoroController implements Initializable {
      * Initialize a dedicated thread to refresh the display
      * every 50ms
      */
-    private void refreshDisplay() {
+    public void refreshDisplay() {
         Runnable refresher = new Runnable() {
             @Override
             public void run() {
@@ -108,6 +124,21 @@ public class PomodoroController implements Initializable {
     private void handleReset() {
         timer.resetTimer();
         startButton.pseudoClassStateChanged(CAN_PAUSE, false);
+    }
+
+    /**
+     * Opens up the settings menu
+     */
+    @FXML
+    private void handleSettings() {
+        settingsStage.show();
+    }
+
+    /**
+     * Check if PomodoroTimer has been injected into the controller
+     */
+    private boolean hasTimerReference() {
+        return !(timer == null);
     }
 
     /**

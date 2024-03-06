@@ -1,5 +1,6 @@
 package ancientmeme.pomodoro;
 
+import ancientmeme.pomodoro.controller.PomodoroController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,61 +10,67 @@ import java.io.IOException;
 import java.net.URL;
 
 public class PomodoroLauncher extends Application {
-    private PomodoroController controller;
+    private PomodoroController timerController;
+    private PomodoroTimer timer;
 
     /**
-     * Load the scene with the given fxml files, exits program if fxml
-     * cannot be loaded.
-     * @param fxmlName The name of the fxml file
+     * Loads the FXML file requested and returns a Scene object
+     * in the dimension specified. Failure to load would result in
+     * process exiting.
+     *
+     * @param loader FXMLLoader for loading fxml files
+     * @param fileName the name of the file
+     * @param width width of the scene
+     * @param height height of the scene
+     * @return a Scene object with specified dimensions
      */
-    public Scene loadScene(String fxmlName) {
-        URL fxmlURL = PomodoroLauncher.class.getResource(fxmlName);
-        if (fxmlURL == null) {
-            System.err.format("fxml file does not exist: %s%n", fxmlName);
-            System.exit(1);
-        }
-
-        FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+    private Scene loadFXMLFile(FXMLLoader loader, String fileName, double width, double height) {
         Scene scene = null;
+        URL fileURL = PomodoroLauncher.class.getResource(fileName);
+
         try {
-            scene = new Scene(fxmlLoader.load(), 320, 360);
-            controller = fxmlLoader.getController();
+            loader.setLocation(fileURL);
+            scene = new Scene(loader.load(), width, height);
         } catch (IOException e) {
-            System.err.format("Cannot load fxml file: %s%n", fxmlName);
+            System.err.format("Cannot load FXML file: %s%n", fileName);
             System.exit(1);
         }
         return scene;
     }
 
-    /**
-     * Loads given stylesheet into the scene, displays error message
-     * when css cannot be loaded
-     * @param scene The scene to add css styling
-     * @param cssName The filename for the css
-     */
-    public void loadCSS(Scene scene, String cssName) {
-        URL cssURL = PomodoroLauncher.class.getResource(cssName);
-        if (cssURL == null) {
-            System.err.format("css file does not exist: %s%n", cssName);
-            return;
-        }
-
-        String css = cssURL.toExternalForm();
-        scene.getStylesheets().add(css);
+    private void setPrimaryStageProperties(Stage primaryStage) {
+        primaryStage.setResizable(false);
+        primaryStage.setTitle("Pomodoro Clock");
     }
 
     @Override
-    public void start(Stage stage) {
-        Scene scene = loadScene("clock.fxml");
-        //loadCSS(scene, "clock.css");
-        stage.setTitle("Pomodoro Clock");
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage primaryStage) {
+        // Loads the scenes
+        FXMLLoader timerLoader = new FXMLLoader();
+        Scene timerScene = loadFXMLFile(timerLoader, "clock.fxml", 320, 360);
+        timerController = timerLoader.getController();
+
+        FXMLLoader settingsLoader = new FXMLLoader();
+        Scene settingsScene = loadFXMLFile(settingsLoader, "settings.fxml", 320, 360);
+
+        // inject references to the Timer Controller
+        Stage settingsStage = new Stage();
+        settingsStage.setScene(settingsScene);
+        timer = new PomodoroTimer();
+
+        timerController.setSettingsStage(settingsStage);
+        timerController.setTimerReference(timer);
+        timerController.refreshDisplay();
+
+        setPrimaryStageProperties(primaryStage);
+        primaryStage.setScene(timerScene);
+        primaryStage.show();
     }
 
     @Override
     public void stop() {
-        controller.shutdownController();
+        timerController.shutdownController();
+        timer.shutdownTimer();
         System.exit(0);
     }
 

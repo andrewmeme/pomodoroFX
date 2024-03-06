@@ -1,6 +1,6 @@
 
 import ancientmeme.pomodoro.PomodoroTimer;
-import ancientmeme.pomodoro.TimerMode;
+import ancientmeme.pomodoro.util.TimerMode;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

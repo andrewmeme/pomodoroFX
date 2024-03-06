@@ -1,3 +1,10 @@
+.tab {
+    -fx-min-width: 250px;
+}
+
+.tab-pane {
+    -fx-padding: 0 -1 -1 -1;
+}
 
 #mode {
     -fx-font-size: 24px;
@@ -12,6 +19,15 @@
 .button {
     -fx-padding: 8px;
     -fx-border-radius: 4px;
+}
+
+#settings-btn {
+    -fx-graphic: url("settings.png");
+    -fx-background-color: #7686B0;
+}
+
+#settings-btn:hover {
+    -fx-background-color: #595A97;
 }
 
 #start-btn {

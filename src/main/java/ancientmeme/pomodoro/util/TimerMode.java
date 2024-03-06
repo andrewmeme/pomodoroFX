@@ -1,4 +1,4 @@
-package ancientmeme.pomodoro;
+package ancientmeme.pomodoro.util;
 
 /**
  * Indicate the mode of the timer
