@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
-
-<?import javafx.scene.layout.GridPane?>
-
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.control.TextField?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
-      fx:controller="ancientmeme.pomodoro.controller.SettingController" alignment="CENTER">
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ancientmeme.pomodoro.controller.SettingsController">
   <padding>
     <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
   </padding>
 
-  <GridPane alignment="CENTER" hgap="8" vgap="8">
-    <Text text="Session Length" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-    <TextField GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-    <Button GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+  <GridPane alignment="CENTER" hgap="8" vgap="8" maxWidth="Infinity">
+    <Text text="Session Length" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Button fx:id="sessionDecreaseButton" focusTraversable="false" onAction="#handleSessionDecrease" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <TextField fx:id="sessionLengthField" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+    <Button fx:id="sessionIncreaseButton" focusTraversable="false" onAction="#handleSessionIncrease" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
-    <Text text="Break Length" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-    <TextField GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-    <Button GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+    <Text text="Break Length" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Button fx:id="breakDecreaseButton" focusTraversable="false" onAction="#handleBreakDecrease" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <TextField fx:id="breakLengthField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+    <Button fx:id="breakIncreaseButton" focusTraversable="false" onAction="#handleBreakIncrease" GridPane.columnIndex="3" GridPane.rowIndex="3" />
   </GridPane>
 
+  <HBox alignment="CENTER" maxWidth="Infinity">
+    <padding>
+      <Insets top="24.0" />
+    </padding>
+    <Button fx:id="saveSettingsButton" text="Save Settings" onAction="#handleSaveSettings"/>
+  </HBox>
+
+
   <stylesheets>
-    <URL value="@clock.css"/>
+    <URL value="@settings.css" />
   </stylesheets>
 </VBox>
-

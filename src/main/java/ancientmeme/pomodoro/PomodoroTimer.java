@@ -13,8 +13,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * stopping, and resetting timer settings.
  */
 public class PomodoroTimer {
-    private final long SECOND = 1000;
-    private final long MINUTE = 60 * SECOND;
+    public static final long SECOND = 1000;
+    public static final long MINUTE = 60 * SECOND;
     //The scheduler runs a thread that updates for the timer
     private final ScheduledExecutorService scheduler;
     // Timer tracker, a thread that keeps tracks of passage of time

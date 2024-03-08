@@ -22,7 +22,7 @@
 }
 
 #settings-btn {
-    -fx-graphic: url("settings.png");
+    -fx-graphic: url("icons/settings.png");
     -fx-background-color: #7686B0;
 }
 
@@ -31,7 +31,7 @@
 }
 
 #start-btn {
-    -fx-graphic: url("start.png");
+    -fx-graphic: url("icons/start.png");
     -fx-background-color: #61CA6E;
 }
 
@@ -40,11 +40,11 @@
 }
 
 #start-btn:can_pause {
-    -fx-graphic: url("pause.png");
+    -fx-graphic: url("icons/pause.png");
 }
 
 #stop-btn {
-    -fx-graphic: url("stop.png");
+    -fx-graphic: url("icons/stop.png");
     -fx-background-color: #CB4545;
 }
 
@@ -53,7 +53,7 @@
 }
 
 #reset-btn {
-    -fx-graphic: url("reset.png");
+    -fx-graphic: url("icons/reset.png");
     -fx-background-color: #7686B0;
 }
 

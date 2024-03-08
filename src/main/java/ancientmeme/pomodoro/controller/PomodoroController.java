@@ -135,13 +135,6 @@ public class PomodoroController implements Initializable {
     }
 
     /**
-     * Check if PomodoroTimer has been injected into the controller
-     */
-    private boolean hasTimerReference() {
-        return !(timer == null);
-    }
-
-    /**
      * Get display text for the mode of the timer
      * @return the current mode of the timer
      */

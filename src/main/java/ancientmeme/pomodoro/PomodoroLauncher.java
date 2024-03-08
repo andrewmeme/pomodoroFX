@@ -1,6 +1,7 @@
 package ancientmeme.pomodoro;
 
 import ancientmeme.pomodoro.controller.PomodoroController;
+import ancientmeme.pomodoro.controller.SettingsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import java.net.URL;
 
 public class PomodoroLauncher extends Application {
     private PomodoroController timerController;
+    private SettingsController settingsController;
     private PomodoroTimer timer;
 
     /**
@@ -43,6 +45,7 @@ public class PomodoroLauncher extends Application {
         primaryStage.setTitle("Pomodoro Clock");
     }
 
+
     @Override
     public void start(Stage primaryStage) {
         // Loads the scenes
@@ -52,14 +55,16 @@ public class PomodoroLauncher extends Application {
 
         FXMLLoader settingsLoader = new FXMLLoader();
         Scene settingsScene = loadFXMLFile(settingsLoader, "settings.fxml", 320, 360);
+        settingsController = settingsLoader.getController();
 
-        // inject references to the Timer Controller
+        // inject timer references to Controllers
+        timer = new PomodoroTimer();
+        timerController.setTimerReference(timer);
+        settingsController.setTimerReference(timer);
+
         Stage settingsStage = new Stage();
         settingsStage.setScene(settingsScene);
-        timer = new PomodoroTimer();
-
         timerController.setSettingsStage(settingsStage);
-        timerController.setTimerReference(timer);
         timerController.refreshDisplay();
 
         setPrimaryStageProperties(primaryStage);
