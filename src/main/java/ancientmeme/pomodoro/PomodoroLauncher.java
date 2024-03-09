@@ -85,16 +85,13 @@ public class PomodoroLauncher extends Application {
         // Injects dependencies into the controllers
         injectDependency();
 
-        // Run functions that requires dependency injections
-        timerController.refreshDisplay();
-        settingsController.loadTimerSettings();
-
         // Setup and display the main window
         setupPrimaryStage(primaryStage);
     }
 
     @Override
     public void stop() {
+        // Stop all threads before shutting down the application
         timerController.shutdownController();
         timer.shutdownTimer();
         System.exit(0);

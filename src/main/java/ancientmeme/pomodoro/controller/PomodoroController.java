@@ -45,11 +45,13 @@ public class PomodoroController implements Initializable {
     }
 
     /**
-     * Inject a reference to a PomodoroTimer
+     * Inject a reference to a PomodoroTimer, and perform initialization
+     * that requires the timer
      * @param timerRef reference to a PomodoroTimer
      */
     public void setTimerReference(PomodoroTimer timerRef) {
         timer = timerRef;
+        refreshDisplay();
     }
 
     /**
@@ -72,7 +74,7 @@ public class PomodoroController implements Initializable {
      * Initialize a dedicated thread to refresh the display
      * every 50ms
      */
-    public void refreshDisplay() {
+    private void refreshDisplay() {
         Runnable refresher = new Runnable() {
             @Override
             public void run() {

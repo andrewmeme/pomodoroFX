@@ -32,6 +32,8 @@ public class SettingsController implements Initializable {
     private Button breakIncreaseButton;
     @FXML
     private Button saveSettingsButton;
+    @FXML
+    private Button resetSettingsButton;
 
     @Override
     public void initialize(URL _url, ResourceBundle _rb) {
@@ -45,17 +47,19 @@ public class SettingsController implements Initializable {
     }
 
     /**
-     * Inject a reference to a PomodoroTimer
+     * Inject a reference to a PomodoroTimer, and perform initialization
+     * that requires the timer
      * @param timerRef reference to a PomodoroTimer
      */
     public void setTimerReference(PomodoroTimer timerRef) {
         timer = timerRef;
+        loadTimerSettings();
     }
 
     /**
      * Load the saved timer settings after getting the reference for the current timer
      */
-    public void loadTimerSettings() {
+    private void loadTimerSettings() {
         sessionFormatter.setValue(timer.getSessionLength() / PomodoroTimer.MINUTE);
         breakFormatter.setValue(timer.getBreakLength() / PomodoroTimer.MINUTE);
     }
@@ -88,6 +92,13 @@ public class SettingsController implements Initializable {
         // Hide settings after confirmation
         Stage stage = (Stage) saveSettingsButton.getScene().getWindow();
         stage.hide();
+    }
+
+    @FXML
+    private void handleResetSettings() {
+        timer.setSessionLength(25, 0);
+        timer.setBreakLength(5, 0);
+        loadTimerSettings();
     }
 
     /**

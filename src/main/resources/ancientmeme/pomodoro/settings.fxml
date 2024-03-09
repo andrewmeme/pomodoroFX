@@ -4,10 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
@@ -29,11 +27,12 @@
     <Button fx:id="breakIncreaseButton" focusTraversable="false" onAction="#handleBreakIncrease" GridPane.columnIndex="3" GridPane.rowIndex="3" />
   </GridPane>
 
-  <HBox alignment="CENTER" maxWidth="Infinity">
+  <HBox spacing="8.0" alignment="CENTER" maxWidth="Infinity">
     <padding>
       <Insets top="24.0" />
     </padding>
-    <Button fx:id="saveSettingsButton" text="Save Settings" onAction="#handleSaveSettings"/>
+    <Button fx:id="saveSettingsButton" text="Save" onAction="#handleSaveSettings"/>
+    <Button fx:id="resetSettingsButton" text="Reset" onAction="#handleResetSettings"/>
   </HBox>
 
 
