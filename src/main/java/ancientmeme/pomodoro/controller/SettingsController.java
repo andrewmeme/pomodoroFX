@@ -52,6 +52,14 @@ public class SettingsController implements Initializable {
         timer = timerRef;
     }
 
+    /**
+     * Load the saved timer settings after getting the reference for the current timer
+     */
+    public void loadTimerSettings() {
+        sessionFormatter.setValue(timer.getSessionLength() / PomodoroTimer.MINUTE);
+        breakFormatter.setValue(timer.getBreakLength() / PomodoroTimer.MINUTE);
+    }
+
     @FXML
     private void handleSessionDecrease() {
         changeSessionLength(-1);
@@ -77,22 +85,37 @@ public class SettingsController implements Initializable {
         timer.setSessionLength(sessionFormatter.getValue(), 0);
         timer.setBreakLength(breakFormatter.getValue(), 0);
 
+        // Hide settings after confirmation
         Stage stage = (Stage) saveSettingsButton.getScene().getWindow();
         stage.hide();
     }
 
+    /**
+     * Shift the length of a session according to the value. The value
+     * has to be between 1 and 60
+     * @param shift the value to shift session length
+     */
     private void changeSessionLength(long shift) {
         long sessionLength = Long.parseLong(sessionLengthField.getText());
         long finalValue = Math.min(Math.max(1, sessionLength + shift), 60);
         sessionFormatter.setValue(finalValue);
     }
 
+    /**
+     * Shift the length of a break according to the value. The value
+     * has to be between 1 and 60
+     * @param shift the value to shift break length
+     */
     private void changeBreakLength(long shift) {
         long breakLength = Long.parseLong(breakLengthField.getText());
         long finalValue = Math.min(Math.max(1, breakLength + shift), 60);
         breakFormatter.setValue(finalValue);
     }
 
+    /**
+     * Set up the text filters for the TextField in the setting menu to
+     * only allow valid inputs
+     */
     private void setupTextFilter() {
         UnaryOperator<TextFormatter.Change> integerFilter = change -> {
             String newText = change.getControlNewText();

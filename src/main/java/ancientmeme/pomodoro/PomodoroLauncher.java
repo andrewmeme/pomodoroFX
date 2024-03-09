@@ -11,9 +11,39 @@ import java.io.IOException;
 import java.net.URL;
 
 public class PomodoroLauncher extends Application {
+    private Scene timerScene;
+    private Scene settingsScene;
     private PomodoroController timerController;
     private SettingsController settingsController;
     private PomodoroTimer timer;
+
+    /**
+     * Load Scenes and Controllers from fxml files.
+     */
+    private void getSceneAndController() {
+        FXMLLoader timerLoader = new FXMLLoader();
+        timerScene = loadFXMLFile(timerLoader, "clock.fxml", 320, 360);
+        timerController = timerLoader.getController();
+
+        FXMLLoader settingsLoader = new FXMLLoader();
+        settingsScene = loadFXMLFile(settingsLoader, "settings.fxml", 320, 360);
+        settingsController = settingsLoader.getController();
+    }
+
+    /**
+     * Inject dependency for the controllers
+     */
+    private void injectDependency() {
+        // inject timer references to Controllers
+        timer = new PomodoroTimer();
+        timerController.setTimerReference(timer);
+        settingsController.setTimerReference(timer);
+
+        // Inject the settings Stage into TimerController
+        Stage settingsStage = new Stage();
+        settingsStage.setScene(settingsScene);
+        timerController.setSettingsStage(settingsStage);
+    }
 
     /**
      * Loads the FXML file requested and returns a Scene object
@@ -40,36 +70,27 @@ public class PomodoroLauncher extends Application {
         return scene;
     }
 
-    private void setPrimaryStageProperties(Stage primaryStage) {
+    private void setupPrimaryStage(Stage primaryStage) {
         primaryStage.setResizable(false);
         primaryStage.setTitle("Pomodoro Clock");
+        primaryStage.setScene(timerScene);
+        primaryStage.show();
     }
-
 
     @Override
     public void start(Stage primaryStage) {
-        // Loads the scenes
-        FXMLLoader timerLoader = new FXMLLoader();
-        Scene timerScene = loadFXMLFile(timerLoader, "clock.fxml", 320, 360);
-        timerController = timerLoader.getController();
+        // Loads the scenes and controller
+        getSceneAndController();
 
-        FXMLLoader settingsLoader = new FXMLLoader();
-        Scene settingsScene = loadFXMLFile(settingsLoader, "settings.fxml", 320, 360);
-        settingsController = settingsLoader.getController();
+        // Injects dependencies into the controllers
+        injectDependency();
 
-        // inject timer references to Controllers
-        timer = new PomodoroTimer();
-        timerController.setTimerReference(timer);
-        settingsController.setTimerReference(timer);
-
-        Stage settingsStage = new Stage();
-        settingsStage.setScene(settingsScene);
-        timerController.setSettingsStage(settingsStage);
+        // Run functions that requires dependency injections
         timerController.refreshDisplay();
+        settingsController.loadTimerSettings();
 
-        setPrimaryStageProperties(primaryStage);
-        primaryStage.setScene(timerScene);
-        primaryStage.show();
+        // Setup and display the main window
+        setupPrimaryStage(primaryStage);
     }
 
     @Override

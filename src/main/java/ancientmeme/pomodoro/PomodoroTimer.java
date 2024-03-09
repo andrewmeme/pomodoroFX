@@ -5,6 +5,7 @@ import ancientmeme.pomodoro.util.TimerMode;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.prefs.Preferences;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -15,7 +16,11 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class PomodoroTimer {
     public static final long SECOND = 1000;
     public static final long MINUTE = 60 * SECOND;
-    //The scheduler runs a thread that updates for the timer
+    private final String SESSION_KEY = "SESSION_LENGTH";
+    private final String BREAK_KEY = "BREAK_LENGTH";
+    // User preference for the timer
+    private final Preferences pref;
+    // The scheduler runs a thread that updates for the timer
     private final ScheduledExecutorService scheduler;
     // Timer tracker, a thread that keeps tracks of passage of time
     private ScheduledFuture<?> timerThread;
@@ -35,13 +40,14 @@ public class PomodoroTimer {
 
     /**
      * Constructs a pomodoro timer for the application to use.
-     * the session and break length is set to the default pomodoro
+     * the default session and break length is set to the pomodoro
      * technique recommendation: 25 minutes / 5 minutes
      */
     public PomodoroTimer() {
         scheduler = Executors.newScheduledThreadPool(1);
-        sessionLength = 25 * MINUTE;
-        breakLength = 5 * MINUTE;
+        pref = Preferences.userNodeForPackage(ancientmeme.pomodoro.PomodoroTimer.class);
+        sessionLength = pref.getLong(SESSION_KEY, 25) * MINUTE;
+        breakLength = pref.getLong(BREAK_KEY, 5) * MINUTE;
 
         isInSession = true;
         isTimerRunning = false;
@@ -63,6 +69,7 @@ public class PomodoroTimer {
      */
     public void setSessionLength(long minutes, long seconds) {
         sessionLength = minutes * MINUTE + seconds * SECOND;
+        pref.putLong(SESSION_KEY, minutes);
     }
 
     /**
@@ -80,6 +87,7 @@ public class PomodoroTimer {
      */
     public void setBreakLength(long minutes, long seconds) {
         breakLength = minutes * MINUTE + seconds * SECOND;
+        pref.putLong(BREAK_KEY, minutes);
     }
 
     /**
