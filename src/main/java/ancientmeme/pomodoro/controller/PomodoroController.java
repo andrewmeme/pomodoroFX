@@ -3,9 +3,11 @@ package ancientmeme.pomodoro.controller;
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.util.TimerMode;
 import javafx.css.PseudoClass;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -26,6 +28,9 @@ public class PomodoroController implements Initializable {
     private ScheduledExecutorService scheduler;
     private PomodoroTimer timer;
     private Stage timerStage;
+    // Offset for dragging the window
+    private double xOffset;
+    private double yOffset;
     private Stage settingsStage;
     @FXML
     private Text modeDisplay;
@@ -133,15 +138,30 @@ public class PomodoroController implements Initializable {
      */
     @FXML
     private void handleSettings() {
+        settingsStage.setX(timerStage.getX());
+        settingsStage.setY(timerStage.getY());
         settingsStage.show();
     }
 
     /**
-     * Closes the timer interface
+     * Closes the application
      */
     @FXML
     private void handleClose() {
+        settingsStage.close();
         timerStage.close();
+    }
+
+    @FXML
+    private void handleMousePress(MouseEvent event) {
+        xOffset = event.getSceneX();
+        yOffset = event.getSceneY();
+    }
+
+    @FXML
+    private void handleMouseDrag(MouseEvent event) {
+        timerStage.setX(event.getScreenX() - xOffset);
+        timerStage.setY(event.getScreenY() - yOffset);
     }
 
     /**
