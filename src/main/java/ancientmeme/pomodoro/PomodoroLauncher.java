@@ -14,6 +14,7 @@ import java.net.URL;
 public class PomodoroLauncher extends Application {
     private Scene timerScene;
     private Scene settingsScene;
+    private Stage settingsStage;
     private PomodoroController timerController;
     private SettingsController settingsController;
     private PomodoroTimer timer;
@@ -41,7 +42,7 @@ public class PomodoroLauncher extends Application {
         settingsController.setTimerReference(timer);
 
         // Inject Stage references into TimerController
-        Stage settingsStage = new Stage();
+        settingsStage = new Stage();
         settingsStage.setScene(settingsScene);
         settingsStage.initStyle(StageStyle.UNDECORATED);
 
@@ -75,6 +76,9 @@ public class PomodoroLauncher extends Application {
     }
 
     private void setupPrimaryStage(Stage primaryStage) {
+        primaryStage.setOnHidden(e -> {
+            settingsStage.close();
+        });
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Pomodoro Clock");

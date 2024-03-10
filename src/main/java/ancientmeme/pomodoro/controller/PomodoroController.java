@@ -28,10 +28,10 @@ public class PomodoroController implements Initializable {
     private ScheduledExecutorService scheduler;
     private PomodoroTimer timer;
     private Stage timerStage;
+    private Stage settingsStage;
     // Offset for dragging the window
     private double xOffset;
     private double yOffset;
-    private Stage settingsStage;
     @FXML
     private Text modeDisplay;
     @FXML
@@ -148,7 +148,6 @@ public class PomodoroController implements Initializable {
      */
     @FXML
     private void handleClose() {
-        settingsStage.close();
         timerStage.close();
     }
 
