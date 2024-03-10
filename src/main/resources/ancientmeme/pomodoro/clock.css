@@ -1,9 +1,24 @@
+* {
+    -fx-text-white: #FFFFFF;
+    -fx-button-highlight: #454963;
+    -fx-background-black: #35384A;
+    -fx-close-red: #D74747;
+}
+
 .tab {
     -fx-min-width: 250px;
 }
 
 .tab-pane {
     -fx-padding: 0 -1 -1 -1;
+}
+
+.text-fx {
+    -fx-fill: -fx-text-white;
+}
+
+#timer-root {
+    -fx-background-color: -fx-background-black;
 }
 
 #mode {
@@ -19,24 +34,27 @@
 .button {
     -fx-padding: 8px;
     -fx-border-radius: 4px;
+    -fx-background-color: rgba(255, 255, 255, 0);
+}
+
+.button:hover {
+    -fx-background-color: -fx-button-highlight;
 }
 
 #settings-btn {
     -fx-graphic: url("icons/settings.png");
-    -fx-background-color: #7686B0;
 }
 
-#settings-btn:hover {
-    -fx-background-color: #595A97;
+#close-btn {
+    -fx-graphic: url("icons/close.png");
+}
+
+#close-btn:hover {
+    -fx-background-color: -fx-close-red;
 }
 
 #start-btn {
     -fx-graphic: url("icons/start.png");
-    -fx-background-color: #61CA6E;
-}
-
-#start-btn:hover {
-    -fx-background-color: #51B045;
 }
 
 #start-btn:can_pause {
@@ -45,18 +63,8 @@
 
 #stop-btn {
     -fx-graphic: url("icons/stop.png");
-    -fx-background-color: #CB4545;
-}
-
-#stop-btn:hover {
-    -fx-background-color: #AE2B34;
 }
 
 #reset-btn {
     -fx-graphic: url("icons/reset.png");
-    -fx-background-color: #7686B0;
-}
-
-#reset-btn:hover {
-    -fx-background-color: #595A97;
 }

@@ -9,30 +9,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.control.Label?>
+<VBox id="root" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ancientmeme.pomodoro.controller.SettingsController">
   <padding>
     <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
   </padding>
 
   <GridPane alignment="CENTER" hgap="8" vgap="8" maxWidth="Infinity">
-    <Text text="Session Length" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Label text="Session Length" GridPane.columnIndex="0" GridPane.rowIndex="0" />
     <Button fx:id="sessionDecreaseButton" focusTraversable="false" onAction="#handleSessionDecrease" GridPane.columnIndex="1" GridPane.rowIndex="0" />
     <TextField fx:id="sessionLengthField" GridPane.columnIndex="2" GridPane.rowIndex="0" />
     <Button fx:id="sessionIncreaseButton" focusTraversable="false" onAction="#handleSessionIncrease" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
-    <Text text="Break Length" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Label text="Break Length" GridPane.columnIndex="0" GridPane.rowIndex="3" />
     <Button fx:id="breakDecreaseButton" focusTraversable="false" onAction="#handleBreakDecrease" GridPane.columnIndex="1" GridPane.rowIndex="3" />
     <TextField fx:id="breakLengthField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
     <Button fx:id="breakIncreaseButton" focusTraversable="false" onAction="#handleBreakIncrease" GridPane.columnIndex="3" GridPane.rowIndex="3" />
   </GridPane>
 
-  <HBox spacing="8.0" alignment="CENTER" maxWidth="Infinity">
+  <HBox id="btn-container" alignment="CENTER" maxWidth="Infinity">
     <padding>
       <Insets top="24.0" />
     </padding>
-    <Button fx:id="saveSettingsButton" text="Save" onAction="#handleSaveSettings"/>
-    <Button fx:id="resetSettingsButton" text="Reset" onAction="#handleResetSettings"/>
+    <Button id="save-btn" fx:id="saveSettingsButton" text="Save" onAction="#handleSaveSettings"/>
+    <Button id="reset-btn" fx:id="resetSettingsButton" text="Reset" onAction="#handleResetSettings"/>
   </HBox>
 
 

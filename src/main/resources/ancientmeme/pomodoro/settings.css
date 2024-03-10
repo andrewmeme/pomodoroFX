@@ -1,5 +1,52 @@
 
+* {
+    -fx-text-white: #FFFFFF;
+    -fx-button-highlight: #454963;
+    -fx-bg-black: #35384A;
+    -fx-text-field-bg: #22212D;
+    -fx-btn: #626FA8;
+    -fx-btn-hover: #505395;
+}
+
+.text, .label {
+    -fx-fill: -fx-text-white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+}
+
 .text-field {
     -fx-max-width: 48px;
     -fx-alignment: center;
+    -fx-text-fill: -fx-text-white;
+    -fx-background-color: -fx-text-field-bg;
+}
+
+.button {
+    -fx-min-width: 24px;
+    -fx-min-height: 24px;
+    -fx-padding: 4px;
+    -fx-border-radius: 4px;
+    -fx-background-color: rgba(255, 255, 255, 0);
+}
+
+.button:hover {
+    -fx-background-color: -fx-button-highlight;
+}
+
+#root {
+    -fx-background-color: -fx-bg-black;
+}
+
+#btn-container {
+    -fx-spacing: 24px;
+}
+
+#save-btn, #reset-btn {
+    -fx-padding: 4px 16px 4px 16px;
+    -fx-border-radius: 4px;
+    -fx-background-color: -fx-btn;
+}
+
+#save-btn:hover, #reset-btn:hover {
+    -fx-background-color: -fx-btn-hover;
 }

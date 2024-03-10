@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,16 +34,19 @@ public class PomodoroLauncher extends Application {
     /**
      * Inject dependency for the controllers
      */
-    private void injectDependency() {
+    private void injectDependency(Stage timerStage) {
         // inject timer references to Controllers
         timer = new PomodoroTimer();
         timerController.setTimerReference(timer);
         settingsController.setTimerReference(timer);
 
-        // Inject the settings Stage into TimerController
+        // Inject Stage references into TimerController
         Stage settingsStage = new Stage();
         settingsStage.setScene(settingsScene);
+        settingsStage.initStyle(StageStyle.UNDECORATED);
+
         timerController.setSettingsStage(settingsStage);
+        timerController.setTimerStage(timerStage);
     }
 
     /**
@@ -71,6 +75,7 @@ public class PomodoroLauncher extends Application {
     }
 
     private void setupPrimaryStage(Stage primaryStage) {
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Pomodoro Clock");
         primaryStage.setScene(timerScene);
@@ -83,7 +88,7 @@ public class PomodoroLauncher extends Application {
         getSceneAndController();
 
         // Injects dependencies into the controllers
-        injectDependency();
+        injectDependency(primaryStage);
 
         // Setup and display the main window
         setupPrimaryStage(primaryStage);

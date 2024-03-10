@@ -25,6 +25,7 @@ public class PomodoroController implements Initializable {
     private static final PseudoClass CAN_PAUSE = PseudoClass.getPseudoClass("can_pause");
     private ScheduledExecutorService scheduler;
     private PomodoroTimer timer;
+    private Stage timerStage;
     private Stage settingsStage;
     @FXML
     private Text modeDisplay;
@@ -60,6 +61,14 @@ public class PomodoroController implements Initializable {
      */
     public void setSettingsStage(Stage settingsStageRef) {
         settingsStage = settingsStageRef;
+    }
+
+    /**
+     * Inject a reference to the timer window (self)
+     * @param timerStageRef reference to the timer window
+     */
+    public void setTimerStage(Stage timerStageRef) {
+        timerStage = timerStageRef;
     }
 
     /**
@@ -120,20 +129,19 @@ public class PomodoroController implements Initializable {
     }
 
     /**
-     * Reset the timer to default setting
-     */
-    @FXML
-    private void handleReset() {
-        timer.resetTimer();
-        startButton.pseudoClassStateChanged(CAN_PAUSE, false);
-    }
-
-    /**
      * Opens up the settings menu
      */
     @FXML
     private void handleSettings() {
         settingsStage.show();
+    }
+
+    /**
+     * Closes the timer interface
+     */
+    @FXML
+    private void handleClose() {
+        timerStage.close();
     }
 
     /**
