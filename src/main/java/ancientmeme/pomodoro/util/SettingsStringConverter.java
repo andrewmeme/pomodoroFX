@@ -4,8 +4,8 @@ import javafx.util.converter.LongStringConverter;
 
 public class SettingsStringConverter extends LongStringConverter {
     @Override
-    public Long fromString(String value) {
-        return Math.min(super.fromString(value), 60);
+    public Long fromString(String input) {
+        return Math.max(Math.min(super.fromString(input), 60), 1);
     }
 
     @Override
