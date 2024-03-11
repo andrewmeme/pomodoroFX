@@ -1,13 +1,14 @@
 
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.util.TimerMode;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import ancientmeme.pomodoro.util.UserSettings;
+import org.junit.jupiter.api.*;
 
 public class PomodoroTimerTest {
     private PomodoroTimer timer;
+    private UserSettings settings;
+    private long savedSessionLength;
+    private long savedBreakLength;
     private final long SECOND = 1000;
     private final long MINUTE = 60 * SECOND;
     private final long _defaultSessionLength = 25 * MINUTE;
@@ -16,11 +17,20 @@ public class PomodoroTimerTest {
     @BeforeEach
     public void setupTest() {
         timer = new PomodoroTimer();
+        settings = new UserSettings();
+        savedSessionLength = settings.getSessionLength();
+        savedBreakLength = settings.getBreakLength();
+        settings.setSessionLength(25, 0);
+        settings.setBreakLength(5, 0);
+
+        timer.setSettingsReference(settings);
     }
 
     @AfterEach
     public void teardownTest() {
         timer.shutdownTimer();
+        settings.setSessionLength(savedSessionLength / MINUTE, savedSessionLength % MINUTE);
+        settings.setBreakLength(savedBreakLength / MINUTE, savedBreakLength % MINUTE);
     }
 
     @Test

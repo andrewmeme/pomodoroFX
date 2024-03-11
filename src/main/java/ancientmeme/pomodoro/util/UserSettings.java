@@ -44,6 +44,7 @@ public class UserSettings {
 
     public void setIsLongBreakEnabled(boolean value) {
         isLongBreakEnabled = value;
+        pref.putBoolean(LONG_BREAK_KEY, isLongBreakEnabled);
     }
 
     public boolean getIsLongBreakEnabled() {
@@ -52,6 +53,7 @@ public class UserSettings {
 
     public void setIsLightModeEnabled(boolean value) {
         isLightModeEnabled = value;
+        pref.putBoolean(LIGHT_MODE_KEY, isLightModeEnabled);
     }
 
     public boolean getIsLightModeEnabled() {

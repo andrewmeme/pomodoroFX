@@ -172,7 +172,7 @@ public class PomodoroController implements Initializable {
         if (mode == TimerMode.SESSION) {
             return "Work Session";
         } else {
-            return "Break :)";
+            return String.format("Break %d :)", timer.getBreakCount());
         }
     }
 

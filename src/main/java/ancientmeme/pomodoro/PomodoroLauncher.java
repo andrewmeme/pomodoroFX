@@ -2,6 +2,7 @@ package ancientmeme.pomodoro;
 
 import ancientmeme.pomodoro.controller.PomodoroController;
 import ancientmeme.pomodoro.controller.SettingsController;
+import ancientmeme.pomodoro.util.UserSettings;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class PomodoroLauncher extends Application {
     private Stage settingsStage;
     private PomodoroController timerController;
     private SettingsController settingsController;
+    private UserSettings userSettings;
     private PomodoroTimer timer;
 
     /**
@@ -36,8 +38,12 @@ public class PomodoroLauncher extends Application {
      * Inject dependency for the controllers
      */
     private void injectDependency(Stage timerStage) {
-        // inject timer references to Controllers
+        // inject user settings into timer
         timer = new PomodoroTimer();
+        userSettings = new UserSettings();
+        timer.setSettingsReference(userSettings);
+
+        // inject timer references to Controllers
         timerController.setTimerReference(timer);
         settingsController.setTimerReference(timer);
 
