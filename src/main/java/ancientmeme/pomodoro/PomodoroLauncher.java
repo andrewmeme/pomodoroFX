@@ -38,14 +38,14 @@ public class PomodoroLauncher extends Application {
      * Inject dependency for the controllers
      */
     private void injectDependency(Stage timerStage) {
-        // inject user settings into timer
+        // inject user settings into timer and settingController
         timer = new PomodoroTimer();
         userSettings = new UserSettings();
         timer.setSettingsReference(userSettings);
+        settingsController.setSettingsReference(userSettings);
 
         // inject timer references to Controllers
         timerController.setTimerReference(timer);
-        settingsController.setTimerReference(timer);
 
         // Inject Stage references into TimerController
         settingsStage = new Stage();

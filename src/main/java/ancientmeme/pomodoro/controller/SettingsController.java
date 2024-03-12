@@ -2,11 +2,11 @@ package ancientmeme.pomodoro.controller;
 
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.util.SettingsStringConverter;
+import ancientmeme.pomodoro.util.UserSettings;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
 public class SettingsController implements Initializable {
-    private PomodoroTimer timer;
+    private UserSettings settings;
     private TextFormatter<Long> sessionFormatter;
     private TextFormatter<Long> breakFormatter;
 
@@ -30,6 +30,10 @@ public class SettingsController implements Initializable {
     private Button breakDecreaseButton;
     @FXML
     private Button breakIncreaseButton;
+    @FXML
+    private ToggleButton longBreakButton;
+    @FXML
+    private ToggleButton lightModeButton;
     @FXML
     private Button saveSettingsButton;
     @FXML
@@ -47,21 +51,21 @@ public class SettingsController implements Initializable {
     }
 
     /**
-     * Inject a reference to a PomodoroTimer, and perform initialization
-     * that requires the timer
-     * @param timerRef reference to a PomodoroTimer
+     * Inject the user preference for the application
      */
-    public void setTimerReference(PomodoroTimer timerRef) {
-        timer = timerRef;
-        loadTimerSettings();
+    public void setSettingsReference(UserSettings settingsRef) {
+        settings = settingsRef;
+        loadUserSettings();
     }
 
     /**
      * Load the saved timer settings after getting the reference for the current timer
      */
-    private void loadTimerSettings() {
-        sessionFormatter.setValue(timer.getSessionLength() / PomodoroTimer.MINUTE);
-        breakFormatter.setValue(timer.getBreakLength() / PomodoroTimer.MINUTE);
+    private void loadUserSettings() {
+        sessionFormatter.setValue(settings.getSessionLength() / PomodoroTimer.MINUTE);
+        breakFormatter.setValue(settings.getBreakLength() / PomodoroTimer.MINUTE);
+        longBreakButton.setSelected(settings.getIsLongBreakEnabled());
+        lightModeButton.setSelected(settings.getIsLightModeEnabled());
     }
 
     @FXML
@@ -85,9 +89,19 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
+    private void handleLongBreakToggle() {
+        settings.setIsLongBreakEnabled(longBreakButton.isSelected());
+    }
+
+    @FXML
+    private void handleLightModeToggle() {
+        settings.setIsLightModeEnabled(lightModeButton.isSelected());
+    }
+
+    @FXML
     private void handleSaveSettings() {
-        timer.setSessionLength(sessionFormatter.getValue(), 0);
-        timer.setBreakLength(breakFormatter.getValue(), 0);
+        settings.setSessionLength(sessionFormatter.getValue(), 0);
+        settings.setBreakLength(breakFormatter.getValue(), 0);
 
         // Hide settings after confirmation
         Stage stage = (Stage) saveSettingsButton.getScene().getWindow();
@@ -96,9 +110,9 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void handleResetSettings() {
-        timer.setSessionLength(25, 0);
-        timer.setBreakLength(5, 0);
-        loadTimerSettings();
+        settings.setSessionLength(25, 0);
+        settings.setBreakLength(5, 0);
+        loadUserSettings();
     }
 
     /**
@@ -145,4 +159,5 @@ public class SettingsController implements Initializable {
                 new TextFormatter<>(new SettingsStringConverter(), 25L, integerFilter);
         breakLengthField.setTextFormatter(breakFormatter);
     }
+
 }

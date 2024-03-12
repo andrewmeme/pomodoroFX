@@ -7,31 +7,42 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.Label?>
-<VBox id="root" alignment="CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ancientmeme.pomodoro.controller.SettingsController">
+<?import javafx.scene.control.ToggleButton?>
+
+<VBox id="root" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ancientmeme.pomodoro.controller.SettingsController" maxWidth="Infinity" maxHeight="Infinity">
   <padding>
-    <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+    <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
   </padding>
 
-  <GridPane alignment="CENTER" hgap="8" vgap="8" maxWidth="Infinity">
-    <Label text="Session Length" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-    <Button fx:id="sessionDecreaseButton" focusTraversable="false" onAction="#handleSessionDecrease" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-    <TextField fx:id="sessionLengthField" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-    <Button fx:id="sessionIncreaseButton" focusTraversable="false" onAction="#handleSessionIncrease" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+  <GridPane VBox.vgrow="ALWAYS" alignment="TOP_CENTER" hgap="8" vgap="12" maxWidth="Infinity" maxHeight="Infinity">
+    <Label text="Session Length" GridPane.Hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="4">
+      <Button fx:id="sessionDecreaseButton" focusTraversable="false" onAction="#handleSessionDecrease"/>
+      <TextField fx:id="sessionLengthField" />
+      <Button fx:id="sessionIncreaseButton" focusTraversable="false" onAction="#handleSessionIncrease"/>
+    </HBox>
 
-    <Label text="Break Length" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-    <Button fx:id="breakDecreaseButton" focusTraversable="false" onAction="#handleBreakDecrease" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-    <TextField fx:id="breakLengthField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-    <Button fx:id="breakIncreaseButton" focusTraversable="false" onAction="#handleBreakIncrease" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+
+    <Label text="Break Length" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="4">
+      <Button fx:id="breakDecreaseButton" focusTraversable="false" onAction="#handleBreakDecrease" />
+      <TextField fx:id="breakLengthField" />
+      <Button fx:id="breakIncreaseButton" focusTraversable="false" onAction="#handleBreakIncrease" />
+    </HBox>
+
+    <Label text="Long break every 4 sessions" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <ToggleButton fx:id="longBreakButton" styleClass="toggle-btn" onAction="#handleLongBreakToggle"
+                  GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="Light mode" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <ToggleButton fx:id="lightModeButton" styleClass="toggle-btn" onAction="#handleLightModeToggle"
+                  GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
   </GridPane>
 
-  <HBox id="btn-container" alignment="CENTER" maxWidth="Infinity">
-    <padding>
-      <Insets top="24.0" />
-    </padding>
+  <HBox id="btn-container" maxWidth="Infinity" alignment="CENTER_RIGHT">
     <Button id="save-btn" fx:id="saveSettingsButton" text="Save" onAction="#handleSaveSettings"/>
     <Button id="reset-btn" fx:id="resetSettingsButton" text="Reset" onAction="#handleResetSettings"/>
   </HBox>
