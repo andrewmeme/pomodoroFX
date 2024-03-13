@@ -1,8 +1,8 @@
 module ancientmeme.pomodoro {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.media;
     requires java.prefs;
-
 
     opens ancientmeme.pomodoro to javafx.fxml;
     exports ancientmeme.pomodoro;

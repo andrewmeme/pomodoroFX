@@ -6,7 +6,6 @@ import ancientmeme.pomodoro.util.UserSettings;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.prefs.Preferences;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -17,7 +16,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class PomodoroTimer {
     public static final long SECOND = 1000;
     public static final long MINUTE = 60 * SECOND;
-    // User preference for the timer
     private UserSettings userSettings;
     // The scheduler runs a thread that updates for the timer
     private final ScheduledExecutorService scheduler;
@@ -29,7 +27,6 @@ public class PomodoroTimer {
     private long endTime;
     // Pause cursor, values only has meaning if isPause is true
     private long pauseStart;
-    // Count the breaks in the session
     private int breakCount;
     private boolean isInSession;
     private boolean isTimerRunning;
@@ -231,7 +228,7 @@ public class PomodoroTimer {
 
         long nextEnd = (isInSession) ? userSettings.getSessionLength() : userSettings.getBreakLength();
         // Every 4th break is double the length
-        if (!isInSession && breakCount % 4 == 0) {
+        if (userSettings.isLongBreakEnabled() && !isInSession && breakCount % 4 == 0) {
             nextEnd *= 2;
         }
 

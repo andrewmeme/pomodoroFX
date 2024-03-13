@@ -32,13 +32,23 @@ public class UserSettingsTest {
     public void setIsLongBreakEnabledTest() {
         settings.setIsLongBreakEnabled(true);
         UserSettings loadedSettings = new UserSettings();
-        Assertions.assertTrue(loadedSettings.getIsLongBreakEnabled());
+        Assertions.assertTrue(loadedSettings.isLongBreakEnabled());
     }
 
     @Test
     public void setIsLightModeEnabledTest() {
         settings.setIsLightModeEnabled(true);
         UserSettings loadedSettings = new UserSettings();
-        Assertions.assertTrue(loadedSettings.getIsLightModeEnabled());
+        Assertions.assertTrue(loadedSettings.isLightModeEnabled());
+    }
+
+    @Test
+    public void resetDefaultSettingsTest() {
+        settings.resetDefaultSettings();
+        UserSettings loadedSettings = new UserSettings();
+        Assertions.assertEquals(25 * MINUTE, loadedSettings.getSessionLength());
+        Assertions.assertEquals(5 * MINUTE, loadedSettings.getBreakLength());
+        Assertions.assertFalse(loadedSettings.isLongBreakEnabled());
+        Assertions.assertFalse(loadedSettings.isLightModeEnabled());
     }
 }

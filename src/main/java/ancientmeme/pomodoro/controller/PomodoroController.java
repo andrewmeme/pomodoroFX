@@ -3,11 +3,12 @@ package ancientmeme.pomodoro.controller;
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.util.TimerMode;
 import javafx.css.PseudoClass;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -29,6 +30,8 @@ public class PomodoroController implements Initializable {
     private PomodoroTimer timer;
     private Stage timerStage;
     private Stage settingsStage;
+    private MediaPlayer mediaPlayer;
+    private TimerMode currentMode;
     // Offset for dragging the window
     private double xOffset;
     private double yOffset;
@@ -41,8 +44,7 @@ public class PomodoroController implements Initializable {
 
 
     /**
-     * Initializes the controller with a default
-     * PomodoroTimer attached to it
+     * Initializes the controller
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -57,7 +59,16 @@ public class PomodoroController implements Initializable {
      */
     public void setTimerReference(PomodoroTimer timerRef) {
         timer = timerRef;
+        currentMode = timer.getTimerMode();
         refreshDisplay();
+    }
+
+    /**
+     * Inject a reference of a media player to play the alarm sound
+     * @param player the media player
+     */
+    public void setMediaPlayerReference(MediaPlayer player) {
+        mediaPlayer = player;
     }
 
     /**
@@ -97,9 +108,21 @@ public class PomodoroController implements Initializable {
                 }
                 modeDisplay.setText(getModeText());
                 timerDisplay.setText(getFormattedTime());
+                playAlarm();
             }
         };
         scheduler.scheduleAtFixedRate(refresher, 0, 50, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Plays an alarm when the timer reaches zero
+     */
+    private void playAlarm() {
+        if (timer.getTimerMode() != currentMode) {
+            mediaPlayer.stop();
+            mediaPlayer.play();
+            currentMode = timer.getTimerMode();
+        }
     }
 
     /**
@@ -151,12 +174,20 @@ public class PomodoroController implements Initializable {
         timerStage.close();
     }
 
+    /**
+     * Records where the mouse clicked
+     * @param event the mouse event
+     */
     @FXML
     private void handleMousePress(MouseEvent event) {
         xOffset = event.getSceneX();
         yOffset = event.getSceneY();
     }
 
+    /**
+     * Move the stage according to the mouse drag
+     * @param event the mouse event
+     */
     @FXML
     private void handleMouseDrag(MouseEvent event) {
         timerStage.setX(event.getScreenX() - xOffset);

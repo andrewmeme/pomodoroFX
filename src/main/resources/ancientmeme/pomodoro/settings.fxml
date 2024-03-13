@@ -34,17 +34,18 @@
     </HBox>
 
     <Label text="Long break every 4 sessions" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    <ToggleButton fx:id="longBreakButton" styleClass="toggle-btn" onAction="#handleLongBreakToggle"
+    <ToggleButton fx:id="longBreakButton" styleClass="toggle-btn"
                   GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
     <Label text="Light mode" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-    <ToggleButton fx:id="lightModeButton" styleClass="toggle-btn" onAction="#handleLightModeToggle"
+    <ToggleButton fx:id="lightModeButton" styleClass="toggle-btn"
                   GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
   </GridPane>
 
   <HBox id="btn-container" maxWidth="Infinity" alignment="CENTER_RIGHT">
-    <Button id="save-btn" fx:id="saveSettingsButton" text="Save" onAction="#handleSaveSettings"/>
-    <Button id="reset-btn" fx:id="resetSettingsButton" text="Reset" onAction="#handleResetSettings"/>
+    <Button id="save-btn" text="Save" onAction="#handleSaveSettings"/>
+    <Button id="reset-btn" text="Reset" onAction="#handleResetSettings"/>
+    <Button id="close-btn" text="Close" onAction="#handleCloseSettings"/>
   </HBox>
 
 

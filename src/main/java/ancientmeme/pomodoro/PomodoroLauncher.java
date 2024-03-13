@@ -6,12 +6,20 @@ import ancientmeme.pomodoro.util.UserSettings;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 
+/**
+ * L
+ */
 public class PomodoroLauncher extends Application {
     private Scene timerScene;
     private Scene settingsScene;
@@ -46,6 +54,7 @@ public class PomodoroLauncher extends Application {
 
         // inject timer references to Controllers
         timerController.setTimerReference(timer);
+        timerController.setMediaPlayerReference(loadMedia("alarm.wav"));
 
         // Inject Stage references into TimerController
         settingsStage = new Stage();
@@ -79,6 +88,25 @@ public class PomodoroLauncher extends Application {
             System.exit(1);
         }
         return scene;
+    }
+
+    /**
+     * Load media with the given file
+     * @param filename the file name for the media
+     * @return a media player ready to play the loaded file
+     */
+    private MediaPlayer loadMedia(String filename) {
+        MediaPlayer player = null;
+
+        try {
+            String resource = PomodoroLauncher.class.getResource(filename).toURI().toString();
+            Media media = new Media(resource);
+            player = new MediaPlayer(media);
+        } catch (URISyntaxException | NullPointerException e) {
+            System.err.format("Cannot load audio file");
+        }
+
+        return player;
     }
 
     private void setupPrimaryStage(Stage primaryStage) {

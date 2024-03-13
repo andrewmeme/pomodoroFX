@@ -47,7 +47,7 @@ public class UserSettings {
         pref.putBoolean(LONG_BREAK_KEY, isLongBreakEnabled);
     }
 
-    public boolean getIsLongBreakEnabled() {
+    public boolean isLongBreakEnabled() {
         return isLongBreakEnabled;
     }
 
@@ -56,7 +56,14 @@ public class UserSettings {
         pref.putBoolean(LIGHT_MODE_KEY, isLightModeEnabled);
     }
 
-    public boolean getIsLightModeEnabled() {
+    public boolean isLightModeEnabled() {
         return isLightModeEnabled;
+    }
+
+    public void resetDefaultSettings() {
+        setSessionLength(25, 0);
+        setBreakLength(5, 0);
+        setIsLongBreakEnabled(false);
+        setIsLightModeEnabled(false);
     }
 }

@@ -51,15 +51,15 @@
 }
 
 #btn-container {
-    -fx-spacing: 24px;
+    -fx-spacing: 16px;
 }
 
-#save-btn, #reset-btn {
+#btn-container .button {
     -fx-padding: 4px 16px 4px 16px;
     -fx-border-radius: 4px;
     -fx-background-color: -fx-btn;
 }
 
-#save-btn:hover, #reset-btn:hover {
+#btn-container .button:hover {
     -fx-background-color: -fx-btn-hover;
 }

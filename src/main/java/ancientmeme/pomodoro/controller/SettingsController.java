@@ -3,7 +3,6 @@ package ancientmeme.pomodoro.controller;
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.util.SettingsStringConverter;
 import ancientmeme.pomodoro.util.UserSettings;
-import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -34,10 +33,6 @@ public class SettingsController implements Initializable {
     private ToggleButton longBreakButton;
     @FXML
     private ToggleButton lightModeButton;
-    @FXML
-    private Button saveSettingsButton;
-    @FXML
-    private Button resetSettingsButton;
 
     @Override
     public void initialize(URL _url, ResourceBundle _rb) {
@@ -64,8 +59,8 @@ public class SettingsController implements Initializable {
     private void loadUserSettings() {
         sessionFormatter.setValue(settings.getSessionLength() / PomodoroTimer.MINUTE);
         breakFormatter.setValue(settings.getBreakLength() / PomodoroTimer.MINUTE);
-        longBreakButton.setSelected(settings.getIsLongBreakEnabled());
-        lightModeButton.setSelected(settings.getIsLightModeEnabled());
+        longBreakButton.setSelected(settings.isLongBreakEnabled());
+        lightModeButton.setSelected(settings.isLightModeEnabled());
     }
 
     @FXML
@@ -89,30 +84,24 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
-    private void handleLongBreakToggle() {
+    private void handleSaveSettings() {
+        settings.setSessionLength(sessionFormatter.getValue(), 0);
+        settings.setBreakLength(breakFormatter.getValue(), 0);
         settings.setIsLongBreakEnabled(longBreakButton.isSelected());
-    }
-
-    @FXML
-    private void handleLightModeToggle() {
         settings.setIsLightModeEnabled(lightModeButton.isSelected());
     }
 
     @FXML
-    private void handleSaveSettings() {
-        settings.setSessionLength(sessionFormatter.getValue(), 0);
-        settings.setBreakLength(breakFormatter.getValue(), 0);
-
-        // Hide settings after confirmation
-        Stage stage = (Stage) saveSettingsButton.getScene().getWindow();
-        stage.hide();
+    private void handleResetSettings() {
+        settings.resetDefaultSettings();
+        loadUserSettings();
     }
 
     @FXML
-    private void handleResetSettings() {
-        settings.setSessionLength(25, 0);
-        settings.setBreakLength(5, 0);
-        loadUserSettings();
+    private void handleCloseSettings() {
+        // Does not matter which button we choose
+        Stage stage = (Stage) lightModeButton.getScene().getWindow();
+        stage.hide();
     }
 
     /**

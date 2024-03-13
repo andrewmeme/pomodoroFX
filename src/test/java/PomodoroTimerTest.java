@@ -5,14 +5,15 @@ import ancientmeme.pomodoro.util.UserSettings;
 import org.junit.jupiter.api.*;
 
 public class PomodoroTimerTest {
-    private PomodoroTimer timer;
-    private UserSettings settings;
-    private long savedSessionLength;
-    private long savedBreakLength;
     private final long SECOND = 1000;
     private final long MINUTE = 60 * SECOND;
     private final long _defaultSessionLength = 25 * MINUTE;
     private final long _acceptableMargin = 75;
+
+    private PomodoroTimer timer;
+    private UserSettings settings;
+    private long savedSessionLength;
+    private long savedBreakLength;
 
     @BeforeEach
     public void setupTest() {
