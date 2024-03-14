@@ -1,11 +1,12 @@
 package ancientmeme.pomodoro.controller;
 
 import ancientmeme.pomodoro.PomodoroTimer;
+import ancientmeme.pomodoro.util.SettingsListener;
 import ancientmeme.pomodoro.util.TimerMode;
+import ancientmeme.pomodoro.util.UserSettings;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaPlayer;
@@ -24,10 +25,11 @@ import java.util.concurrent.TimeUnit;
  * The controller updates the current timer by receiving data from
  * PomodoroTimer and pass any user actions to it.
  */
-public class PomodoroController implements Initializable {
+public class PomodoroController implements Initializable, SettingsListener {
     private static final PseudoClass CAN_PAUSE = PseudoClass.getPseudoClass("can_pause");
     private ScheduledExecutorService scheduler;
     private PomodoroTimer timer;
+    private UserSettings userSettings;
     private Stage timerStage;
     private Stage settingsStage;
     private MediaPlayer mediaPlayer;
@@ -42,7 +44,6 @@ public class PomodoroController implements Initializable {
     @FXML
     private Button startButton;
 
-
     /**
      * Initializes the controller
      */
@@ -50,6 +51,12 @@ public class PomodoroController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         scheduler = Executors.newScheduledThreadPool(1);
         startButton.pseudoClassStateChanged(CAN_PAUSE, false);
+    }
+
+    @Override
+    public void settingsChanged() {
+        System.out.println("timer got signal");
+        setAlwaysOnTop();
     }
 
     /**
@@ -69,6 +76,14 @@ public class PomodoroController implements Initializable {
      */
     public void setMediaPlayerReference(MediaPlayer player) {
         mediaPlayer = player;
+    }
+
+    /**
+     * Get reference to the settings, then load all related settings
+     * @param settings the saved user settings
+     */
+    public void setSettingsReference(UserSettings settings) {
+        userSettings = settings;
     }
 
     /**
@@ -220,5 +235,9 @@ public class PomodoroController implements Initializable {
         long seconds = remainingSeconds % 60;
 
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private void setAlwaysOnTop() {
+        timerStage.setAlwaysOnTop(userSettings.isAlwaysOnTop());
     }
 }

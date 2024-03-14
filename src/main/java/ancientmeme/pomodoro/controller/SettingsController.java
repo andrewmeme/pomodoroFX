@@ -1,6 +1,7 @@
 package ancientmeme.pomodoro.controller;
 
 import ancientmeme.pomodoro.PomodoroTimer;
+import ancientmeme.pomodoro.util.SettingsListener;
 import ancientmeme.pomodoro.util.SettingsStringConverter;
 import ancientmeme.pomodoro.util.UserSettings;
 import javafx.fxml.FXML;
@@ -12,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 
-public class SettingsController implements Initializable {
+public class SettingsController implements Initializable, SettingsListener {
     private UserSettings settings;
     private TextFormatter<Long> sessionFormatter;
     private TextFormatter<Long> breakFormatter;
@@ -33,6 +34,8 @@ public class SettingsController implements Initializable {
     private ToggleButton longBreakButton;
     @FXML
     private ToggleButton lightModeButton;
+    @FXML
+    private ToggleButton onTopButton;
 
     @Override
     public void initialize(URL _url, ResourceBundle _rb) {
@@ -43,6 +46,13 @@ public class SettingsController implements Initializable {
         sessionIncreaseButton.setText(">");
         breakDecreaseButton.setText("<");
         breakIncreaseButton.setText(">");
+    }
+
+    @Override
+    public void settingsChanged() {
+        System.out.println("settings got signal");
+        // Check if always on top is true
+        setAlwaysOnTop();
     }
 
     /**
@@ -61,6 +71,7 @@ public class SettingsController implements Initializable {
         breakFormatter.setValue(settings.getBreakLength() / PomodoroTimer.MINUTE);
         longBreakButton.setSelected(settings.isLongBreakEnabled());
         lightModeButton.setSelected(settings.isLightModeEnabled());
+        onTopButton.setSelected(settings.isAlwaysOnTop());
     }
 
     @FXML
@@ -89,6 +100,8 @@ public class SettingsController implements Initializable {
         settings.setBreakLength(breakFormatter.getValue(), 0);
         settings.setIsLongBreakEnabled(longBreakButton.isSelected());
         settings.setIsLightModeEnabled(lightModeButton.isSelected());
+        settings.setIsAlwaysOnTop(onTopButton.isSelected());
+        settings.notifySettingsUpdate();
     }
 
     @FXML
@@ -99,9 +112,10 @@ public class SettingsController implements Initializable {
 
     @FXML
     private void handleCloseSettings() {
-        // Does not matter which button we choose
-        Stage stage = (Stage) lightModeButton.getScene().getWindow();
-        stage.hide();
+        // Reset the interface to the saved settings
+        loadUserSettings();
+        Stage settingsStage = (Stage) lightModeButton.getScene().getWindow();
+        settingsStage.hide();
     }
 
     /**
@@ -149,4 +163,8 @@ public class SettingsController implements Initializable {
         breakLengthField.setTextFormatter(breakFormatter);
     }
 
+    private void setAlwaysOnTop() {
+        Stage settingsStage = (Stage) lightModeButton.getScene().getWindow();
+        settingsStage.setAlwaysOnTop(settings.isAlwaysOnTop());
+    }
 }

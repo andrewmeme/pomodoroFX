@@ -40,6 +40,10 @@
     <Label text="Light mode" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
     <ToggleButton fx:id="lightModeButton" styleClass="toggle-btn"
                   GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <Label text="Always on top" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <ToggleButton fx:id="onTopButton" styleClass="toggle-btn"
+                  GridPane.halignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
   </GridPane>
 
   <HBox id="btn-container" maxWidth="Infinity" alignment="CENTER_RIGHT">
