@@ -1,7 +1,7 @@
 package ancientmeme.pomodoro;
 
 import ancientmeme.pomodoro.util.TimerMode;
-import ancientmeme.pomodoro.util.UserSettings;
+import ancientmeme.pomodoro.settings.UserSettings;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

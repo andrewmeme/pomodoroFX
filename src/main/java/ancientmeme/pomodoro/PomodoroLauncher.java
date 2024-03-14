@@ -3,18 +3,12 @@ package ancientmeme.pomodoro;
 import ancientmeme.pomodoro.controller.PomodoroController;
 import ancientmeme.pomodoro.controller.SettingsController;
 import ancientmeme.pomodoro.util.Loader;
-import ancientmeme.pomodoro.util.UserSettings;
+import ancientmeme.pomodoro.settings.UserSettings;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 /**
  * The starting point of the application, loads all the windows required

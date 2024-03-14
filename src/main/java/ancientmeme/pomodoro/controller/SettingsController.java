@@ -1,9 +1,9 @@
 package ancientmeme.pomodoro.controller;
 
 import ancientmeme.pomodoro.PomodoroTimer;
-import ancientmeme.pomodoro.util.SettingsListener;
-import ancientmeme.pomodoro.util.SettingsStringConverter;
-import ancientmeme.pomodoro.util.UserSettings;
+import ancientmeme.pomodoro.settings.SettingsListener;
+import ancientmeme.pomodoro.settings.SettingsStringConverter;
+import ancientmeme.pomodoro.settings.UserSettings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;

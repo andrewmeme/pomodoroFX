@@ -1,4 +1,4 @@
-import ancientmeme.pomodoro.util.SettingsStringConverter;
+import ancientmeme.pomodoro.settings.SettingsStringConverter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

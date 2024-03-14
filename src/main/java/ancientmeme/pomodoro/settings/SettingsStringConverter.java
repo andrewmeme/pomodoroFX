@@ -1,4 +1,4 @@
-package ancientmeme.pomodoro.util;
+package ancientmeme.pomodoro.settings;
 
 import javafx.util.converter.LongStringConverter;
 

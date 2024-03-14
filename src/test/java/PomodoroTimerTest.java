@@ -1,7 +1,7 @@
 
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.util.TimerMode;
-import ancientmeme.pomodoro.util.UserSettings;
+import ancientmeme.pomodoro.settings.UserSettings;
 import org.junit.jupiter.api.*;
 
 public class PomodoroTimerTest {

@@ -1,4 +1,4 @@
-package ancientmeme.pomodoro.util;
+package ancientmeme.pomodoro.settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class UserSettings {
     private boolean isAlwaysOnTop;
 
     public UserSettings() {
-        pref = Preferences.userNodeForPackage(ancientmeme.pomodoro.util.UserSettings.class);
+        pref = Preferences.userNodeForPackage(UserSettings.class);
         listeners = new ArrayList<SettingsListener>();
 
         sessionLength = pref.getLong(SESSION_KEY, 25);
