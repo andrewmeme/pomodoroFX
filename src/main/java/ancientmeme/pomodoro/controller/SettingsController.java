@@ -4,8 +4,11 @@ import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.settings.SettingsListener;
 import ancientmeme.pomodoro.settings.SettingsStringConverter;
 import ancientmeme.pomodoro.settings.UserSettings;
+import ancientmeme.pomodoro.util.Loader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -17,6 +20,8 @@ public class SettingsController implements Initializable, SettingsListener {
     private UserSettings settings;
     private TextFormatter<Long> sessionFormatter;
     private TextFormatter<Long> breakFormatter;
+    private String lightModeCSS;
+    private String darkModeCSS;
 
     @FXML
     private TextField sessionLengthField;
@@ -40,6 +45,9 @@ public class SettingsController implements Initializable, SettingsListener {
     @Override
     public void initialize(URL _url, ResourceBundle _rb) {
         setupTextFilter();
+        // Load the css required
+        lightModeCSS = Loader.loadCSS("css/light-mode.css");
+        darkModeCSS = Loader.loadCSS("css/dark-mode.css");
 
         // these symbols cause error for FXMLLoader
         sessionDecreaseButton.setText("<");
@@ -50,9 +58,8 @@ public class SettingsController implements Initializable, SettingsListener {
 
     @Override
     public void settingsChanged() {
-        System.out.println("settings got signal");
-        // Check if always on top is true
         setAlwaysOnTop();
+        changeStyleMode();
     }
 
     /**
@@ -166,5 +173,17 @@ public class SettingsController implements Initializable, SettingsListener {
     private void setAlwaysOnTop() {
         Stage settingsStage = (Stage) lightModeButton.getScene().getWindow();
         settingsStage.setAlwaysOnTop(settings.isAlwaysOnTop());
+    }
+
+    private void changeStyleMode() {
+        Parent settingsParent = lightModeButton.getScene().getRoot();
+
+        if (settings.isLightModeEnabled()) {
+            settingsParent.getStylesheets().remove(darkModeCSS);
+            settingsParent.getStylesheets().add(lightModeCSS);
+        } else {
+            settingsParent.getStylesheets().remove(lightModeCSS);
+            settingsParent.getStylesheets().add(darkModeCSS);
+        }
     }
 }

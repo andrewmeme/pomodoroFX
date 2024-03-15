@@ -53,8 +53,19 @@ public class Loader {
             Media media = new Media(resource);
             player = new MediaPlayer(media);
         } catch (URISyntaxException | NullPointerException e) {
-            System.err.format("Cannot load audio file");
+            System.err.format("Cannot load audio file: %s%n", filename);
         }
         return player;
+    }
+
+    public static String loadCSS(String filename) {
+        String cssURL = null;
+        try {
+            cssURL = PomodoroLauncher.class.getResource(filename).toExternalForm();
+        } catch (NullPointerException e) {
+            System.err.format("Cannot load css file: %s%n", filename);
+            System.exit(1);
+        }
+        return cssURL;
     }
 }

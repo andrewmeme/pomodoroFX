@@ -1,15 +1,10 @@
 
 * {
-    -fx-text-white: #FFFFFF;
-    -fx-button-highlight: #454963;
-    -fx-bg-black: #35384A;
-    -fx-text-field-bg: #22212D;
     -fx-btn: #E38959;
     -fx-btn-hover: #C35E3D;
 }
 
 .text, .label {
-    -fx-fill: -fx-text-white;
     -fx-font-size: 12px;
     -fx-font-weight: 500;
 }
@@ -17,8 +12,6 @@
 .text-field {
     -fx-max-width: 48px;
     -fx-alignment: center;
-    -fx-text-fill: -fx-text-white;
-    -fx-background-color: -fx-text-field-bg;
 }
 
 .button {
@@ -34,7 +27,6 @@
     -fx-max-width: 24px;
     -fx-min-height: 24px;
     -fx-max-height: 24px;
-    -fx-border-color: -fx-text-white;
     -fx-background-color: rgba(255, 255, 255, 0);
 }
 
@@ -44,10 +36,6 @@
 
 .toggle-btn:selected {
     -fx-background-color: -fx-btn;
-}
-
-#root {
-    -fx-background-color: -fx-bg-black;
 }
 
 #btn-container {

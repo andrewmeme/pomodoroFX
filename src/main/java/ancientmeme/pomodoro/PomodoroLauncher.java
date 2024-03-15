@@ -79,11 +79,11 @@ public class PomodoroLauncher extends Application {
 
     private void applyStageSettings() {
         timerStage.setOnShown(e -> {
-            timerStage.setAlwaysOnTop(userSettings.isAlwaysOnTop());
+            timerController.settingsChanged();
         });
 
         settingsStage.setOnShown(e -> {
-            settingsStage.setAlwaysOnTop(userSettings.isAlwaysOnTop());
+            settingsController.settingsChanged();
         });
     }
 

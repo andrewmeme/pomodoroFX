@@ -1,0 +1,48 @@
+
+* {
+    -text-color: #FFFFFF;
+    -background-black: #35384A;
+    -text-field-bg: #22212D;
+    -button-highlight: #454963;
+}
+
+.root {
+    -fx-background-color: -background-black;
+}
+
+.text, .text-fx, .label, .text-field {
+    -fx-fill: -text-color;
+    -fx-text-fill: -text-color;
+}
+
+.text-field {
+    -fx-background-color: -text-field-bg;
+}
+
+.toggle-btn {
+    -fx-border-color: -text-color;
+}
+
+.button:hover, .toggle-btn:hover {
+    -fx-background-color: -button-highlight;
+}
+
+#settings-btn {
+    -fx-graphic: url("../icons/settings.png");
+}
+
+#close-btn {
+    -fx-graphic: url("../icons/close.png");
+}
+
+#start-btn {
+    -fx-graphic: url("../icons/start.png");
+}
+
+#start-btn:can_pause {
+    -fx-graphic: url("../icons/pause.png");
+}
+
+#stop-btn {
+    -fx-graphic: url("../icons/stop.png");
+}

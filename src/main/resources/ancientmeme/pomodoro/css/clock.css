@@ -1,0 +1,36 @@
+* {
+    -fx-button-highlight: #454963;
+    -fx-close-red: #D74747;
+}
+
+.tab {
+    -fx-min-width: 250px;
+}
+
+.tab-pane {
+    -fx-padding: 0 -1 -1 -1;
+}
+
+#mode {
+    -fx-font-size: 24px;
+    -fx-font-weight: 500;
+}
+
+#timer {
+    -fx-font-size: 72px;
+    -fx-font-weight: 500;
+}
+
+.button {
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+    -fx-background-color: rgba(255, 255, 255, 0);
+}
+
+.button:hover {
+    -fx-background-color: -fx-button-highlight;
+}
+
+#close-btn:hover {
+    -fx-background-color: -fx-close-red;
+}

@@ -2,11 +2,13 @@ package ancientmeme.pomodoro.controller;
 
 import ancientmeme.pomodoro.PomodoroTimer;
 import ancientmeme.pomodoro.settings.SettingsListener;
+import ancientmeme.pomodoro.util.Loader;
 import ancientmeme.pomodoro.util.TimerMode;
 import ancientmeme.pomodoro.settings.UserSettings;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaPlayer;
@@ -34,6 +36,8 @@ public class PomodoroController implements Initializable, SettingsListener {
     private Stage settingsStage;
     private MediaPlayer mediaPlayer;
     private TimerMode currentMode;
+    private String lightModeCSS;
+    private String darkModeCSS;
     // Offset for dragging the window
     private double xOffset;
     private double yOffset;
@@ -51,12 +55,16 @@ public class PomodoroController implements Initializable, SettingsListener {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         scheduler = Executors.newScheduledThreadPool(1);
         startButton.pseudoClassStateChanged(CAN_PAUSE, false);
+
+        // Load the css required
+        lightModeCSS = Loader.loadCSS("css/light-mode.css");
+        darkModeCSS = Loader.loadCSS("css/dark-mode.css");
     }
 
     @Override
     public void settingsChanged() {
-        System.out.println("timer got signal");
         setAlwaysOnTop();
+        changeStyleMode();
     }
 
     /**
@@ -239,5 +247,17 @@ public class PomodoroController implements Initializable, SettingsListener {
 
     private void setAlwaysOnTop() {
         timerStage.setAlwaysOnTop(userSettings.isAlwaysOnTop());
+    }
+
+    private void changeStyleMode() {
+        Parent settingsParent = startButton.getScene().getRoot();
+
+        if (userSettings.isLightModeEnabled()) {
+            settingsParent.getStylesheets().remove(darkModeCSS);
+            settingsParent.getStylesheets().add(lightModeCSS);
+        } else {
+            settingsParent.getStylesheets().remove(lightModeCSS);
+            settingsParent.getStylesheets().add(darkModeCSS);
+        }
     }
 }

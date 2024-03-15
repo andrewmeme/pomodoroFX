@@ -11,7 +11,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleButton?>
 
-<VBox id="root" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+<VBox styleClass="root" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ancientmeme.pomodoro.controller.SettingsController" maxWidth="Infinity" maxHeight="Infinity">
   <padding>
     <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
@@ -49,11 +49,12 @@
   <HBox id="btn-container" maxWidth="Infinity" alignment="CENTER_RIGHT">
     <Button id="save-btn" text="Save" onAction="#handleSaveSettings"/>
     <Button id="reset-btn" text="Reset" onAction="#handleResetSettings"/>
-    <Button id="close-btn" text="Close" onAction="#handleCloseSettings"/>
+    <Button text="Close" onAction="#handleCloseSettings"/>
   </HBox>
 
 
   <stylesheets>
-    <URL value="@settings.css" />
+    <URL value="@css/settings.css" />
+    <URL value="@css/dark-mode.css"/>
   </stylesheets>
 </VBox>

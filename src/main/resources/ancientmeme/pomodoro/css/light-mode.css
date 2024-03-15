@@ -1,0 +1,48 @@
+
+* {
+    -text-color: #35384A;
+    -background-white: #F6F9FA;
+    -text-field-bg: #E5EBF1;
+    -button-highlight: #DBDFED;
+}
+
+.root {
+    -fx-background-color: -background-white;
+}
+
+.text, .text-fx, .label, .text-field {
+    -fx-fill: -text-color;
+    -fx-text-fill: -text-color;
+}
+
+.text-field {
+    -fx-background-color: -text-field-bg;
+}
+
+.toggle-btn {
+    -fx-border-color: -text-color;
+}
+
+.button:hover, .toggle-btn:hover {
+    -fx-background-color: -button-highlight;
+}
+
+#settings-btn {
+    -fx-graphic: url("../icons/settings-light.png");
+}
+
+#close-btn {
+    -fx-graphic: url("../icons/close-light.png");
+}
+
+#start-btn {
+    -fx-graphic: url("../icons/start-light.png");
+}
+
+#start-btn:can_pause {
+    -fx-graphic: url("../icons/pause-light.png");
+}
+
+#stop-btn {
+    -fx-graphic: url("../icons/stop-light.png");
+}

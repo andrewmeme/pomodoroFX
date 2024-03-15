@@ -9,7 +9,7 @@
 
 <?import java.net.URL?>
 
-<VBox id="timer-root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
+<VBox styleClass="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
       fx:controller="ancientmeme.pomodoro.controller.PomodoroController"
       onMousePressed="#handleMousePress" onMouseDragged="#handleMouseDrag">
   <HBox alignment="CENTER_RIGHT" spacing="10.0">
@@ -37,6 +37,7 @@
   </VBox>
 
   <stylesheets>
-    <URL value="@clock.css"/>
+    <URL value="@css/dark-mode.css"/>
+    <URL value="@css/clock.css"/>
   </stylesheets>
 </VBox>
