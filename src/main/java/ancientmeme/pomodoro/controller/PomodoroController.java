@@ -65,6 +65,7 @@ public class PomodoroController implements Initializable, SettingsListener {
     public void settingsChanged() {
         setAlwaysOnTop();
         changeStyleMode();
+        setDefaultPosition();
     }
 
     /**
@@ -213,8 +214,12 @@ public class PomodoroController implements Initializable, SettingsListener {
      */
     @FXML
     private void handleMouseDrag(MouseEvent event) {
-        timerStage.setX(event.getScreenX() - xOffset);
-        timerStage.setY(event.getScreenY() - yOffset);
+        double xPos = event.getScreenX() - xOffset;
+        double yPos = event.getScreenY() - yOffset;
+        timerStage.setX(xPos);
+        timerStage.setY(yPos);
+        userSettings.setWindowX(xPos);
+        userSettings.setWindowY(yPos);
     }
 
     /**
@@ -245,10 +250,16 @@ public class PomodoroController implements Initializable, SettingsListener {
         return String.format("%02d:%02d", minutes, seconds);
     }
 
+    /**
+     * Update the OnTop attribute of the window
+     */
     private void setAlwaysOnTop() {
         timerStage.setAlwaysOnTop(userSettings.isAlwaysOnTop());
     }
 
+    /**
+     * Changing the style according the settings
+     */
     private void changeStyleMode() {
         Parent settingsParent = startButton.getScene().getRoot();
 
@@ -259,5 +270,10 @@ public class PomodoroController implements Initializable, SettingsListener {
             settingsParent.getStylesheets().remove(lightModeCSS);
             settingsParent.getStylesheets().add(darkModeCSS);
         }
+    }
+
+    private void setDefaultPosition() {
+        timerStage.setX(userSettings.getWindowX());
+        timerStage.setY(userSettings.getWindowY());
     }
 }

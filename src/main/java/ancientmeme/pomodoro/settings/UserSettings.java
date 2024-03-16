@@ -12,6 +12,8 @@ public class UserSettings {
     private final String LONG_BREAK_KEY = "LONG_BREAK";
     private final String LIGHT_MODE_KEY = "LIGHT_MODE";
     private final String ON_TOP_KEY = "ON_TOP";
+    private final String WINDOW_X_KEY = "X_POS";
+    private final String WINDOW_Y_KEY = "Y_POS";
     // User preference for the application
     private final Preferences pref;
     private final List<SettingsListener> listeners;
@@ -20,6 +22,8 @@ public class UserSettings {
     private boolean isLongBreakEnabled;
     private boolean isLightModeEnabled;
     private boolean isAlwaysOnTop;
+    private double windowX;
+    private double windowY;
 
     public UserSettings() {
         pref = Preferences.userNodeForPackage(UserSettings.class);
@@ -30,6 +34,8 @@ public class UserSettings {
         isLongBreakEnabled = pref.getBoolean(LONG_BREAK_KEY, false);
         isLightModeEnabled = pref.getBoolean(LIGHT_MODE_KEY, false);
         isAlwaysOnTop = pref.getBoolean(ON_TOP_KEY, false);
+        windowX = pref.getDouble(WINDOW_X_KEY, 0);
+        windowY = pref.getDouble(WINDOW_Y_KEY, 0);
     }
 
     public void setSessionLength(long minutes, long seconds) {
@@ -75,6 +81,24 @@ public class UserSettings {
 
     public boolean isAlwaysOnTop() {
         return isAlwaysOnTop;
+    }
+
+    public double getWindowX() {
+        return windowX;
+    }
+
+    public void setWindowX(double value) {
+        windowX = value;
+        pref.putDouble(WINDOW_X_KEY, windowX);
+    }
+
+    public double getWindowY() {
+        return windowY;
+    }
+
+    public void setWindowY(double value) {
+        windowY = value;
+        pref.putDouble(WINDOW_Y_KEY, windowY);
     }
 
     public void resetDefaultSettings() {
