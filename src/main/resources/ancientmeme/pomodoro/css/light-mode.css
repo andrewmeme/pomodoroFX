@@ -23,7 +23,7 @@
     -fx-border-color: -text-color;
 }
 
-.button:hover, .toggle-btn:hover {
+.button:hover {
     -fx-background-color: -button-highlight;
 }
 
